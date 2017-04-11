@@ -10,11 +10,11 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
  * @author zer0
  * @version 1.0
  */
-@ConfigurationProperties(prefix = DruidProperties.DRUID_PREFIX)
+@ConfigurationProperties(prefix = DruidProperties.PREFIX)
 @EnableConfigurationProperties({ServletProperties.class, FilterProperties.class})
 public class DruidProperties {
 
-    public static final String DRUID_PREFIX = "druid";
+    public static final String PREFIX = "druid";
 
     private String url = "jdbc:mysql://localhost:3306/test";
     private String username = "root";
@@ -78,6 +78,9 @@ public class DruidProperties {
     private Filter[] proxyFilters;
     //合并多个DruidDataSource的监控数据(true:合并, false:不合并)
     private Boolean useGlobalDataSourceStat = true;
+
+    private ServletProperties servlet;
+    private FilterProperties filter;
 
     public String getUrl() {
         return url;
@@ -245,5 +248,21 @@ public class DruidProperties {
 
     public void setUseGlobalDataSourceStat(Boolean useGlobalDataSourceStat) {
         this.useGlobalDataSourceStat = useGlobalDataSourceStat;
+    }
+
+    public ServletProperties getServlet() {
+        return servlet;
+    }
+
+    public void setServlet(ServletProperties servlet) {
+        this.servlet = servlet;
+    }
+
+    public FilterProperties getFilter() {
+        return filter;
+    }
+
+    public void setFilter(FilterProperties filter) {
+        this.filter = filter;
     }
 }

@@ -4,10 +4,14 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
 import com.lxt.starter.druid.properties.DruidProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -27,12 +31,21 @@ import java.util.Arrays;
 @EnableConfigurationProperties(DruidProperties.class)
 public class DruidAutoConfiguration {
 
+    private final static Logger logger = LoggerFactory.getLogger(DruidAutoConfiguration.class);
+
     @Autowired
     private DruidProperties properties;
 
+    /**
+     * 实例化DataSource，并交由Spring托管
+     * @return DruidDataSource
+     * @throws SQLException
+     */
     @Bean(initMethod = "init", destroyMethod = "close")
     @ConditionalOnMissingBean
     public DruidDataSource dataSource() throws SQLException{
+        logger.info("----初始化数据源----");
+
         DruidDataSource druidDataSource = new DruidDataSource();
         druidDataSource.setDriverClassName(properties.getDriverClassName());
         druidDataSource.setUrl(properties.getUrl());
@@ -57,5 +70,52 @@ public class DruidAutoConfiguration {
 
         return druidDataSource;
     }
+
+    /**
+     * 实例化 ViewStatServlet，注册到Web环境中
+     * @return ServletRegistrationBean
+     */
+    @Bean
+    public ServletRegistrationBean druidServlet(){
+        logger.info("----初始化ViewStatServlet----");
+
+        ServletRegistrationBean bean = new ServletRegistrationBean(new StatViewServlet(), properties.getServlet().getUrl());
+        bean.addInitParameter("loginUsername", properties.getServlet().getUsername());
+        bean.addInitParameter("loginPassword", properties.getServlet().getPassword());
+        bean.addInitParameter("resetEnable", properties.getServlet().getResetEnable());
+        if (null != properties.getServlet().getAllow()) {
+            bean.addInitParameter("allow", properties.getServlet().getAllow());
+        }
+        if (null != properties.getServlet().getDeny()) {
+            bean.addInitParameter("deny", properties.getServlet().getDeny());
+        }
+
+        return bean;
+    }
+
+    /**
+     * 实例化 WebStatFilter，注册到Web环境中
+     * @return FilterRegistrationBean
+     */
+    @Bean
+    public FilterRegistrationBean druidFilter(){
+        logger.info("----初始化WebStatFilter----");
+
+        FilterRegistrationBean bean = new FilterRegistrationBean(new WebStatFilter());
+        bean.addUrlPatterns(properties.getFilter().getUrl());
+        bean.addInitParameter("exclusions", properties.getFilter().getExclusions());
+        bean.addInitParameter("sessionStatMaxCount", properties.getFilter().getSessionStatMaxCount());
+        bean.addInitParameter("sessionStatEnable", properties.getFilter().getSessionStatEnable());
+        if (null != properties.getFilter().getPrincipalSessionName()) {
+            bean.addInitParameter("principalSessionName", properties.getFilter().getPrincipalSessionName());
+        }
+        if (null != properties.getFilter().getPrincipalCookieName()) {
+            bean.addInitParameter("principalCookieName", properties.getFilter().getPrincipalCookieName());
+        }
+        bean.addInitParameter("profileEnable", properties.getFilter().getProfileEnable());
+
+        return bean;
+    }
+
 
 }
