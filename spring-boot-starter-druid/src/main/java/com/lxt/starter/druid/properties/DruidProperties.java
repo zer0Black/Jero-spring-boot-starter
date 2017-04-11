@@ -1,6 +1,8 @@
-package com.lxt.starter.druid;
+package com.lxt.starter.druid.properties;
 
+import com.alibaba.druid.filter.Filter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 /**
  * Druid默认配置
@@ -9,14 +11,15 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @version 1.0
  */
 @ConfigurationProperties(prefix = DruidProperties.DRUID_PREFIX)
+@EnableConfigurationProperties({ServletProperties.class, FilterProperties.class})
 public class DruidProperties {
 
     public static final String DRUID_PREFIX = "druid";
 
-    private String url;
-    private String username;
-    private String password;
-    private String driverClassName;
+    private String url = "jdbc:mysql://localhost:3306/test";
+    private String username = "root";
+    private String password = "root";
+    private String driverClassName = "com.mysql.jdbc.Driver";
     //初始化时建立物理连接的个数。初始化发生在显示调用init方法或第一次getConnection时
     private Integer initialSize = 10;
     //最小连接池数量
@@ -72,9 +75,9 @@ public class DruidProperties {
      * 类型是List，如果同时配置了filters和proxyFilters，
      * 是组合关系，并非替换关系
      */
-    private String[] proxyFilters;
+    private Filter[] proxyFilters;
     //合并多个DruidDataSource的监控数据(true:合并, false:不合并)
-    private Boolean useGlobalDataSourceStat;
+    private Boolean useGlobalDataSourceStat = true;
 
     public String getUrl() {
         return url;
@@ -228,11 +231,11 @@ public class DruidProperties {
         this.filters = filters;
     }
 
-    public String[] getProxyFilters() {
+    public Filter[] getProxyFilters() {
         return proxyFilters;
     }
 
-    public void setProxyFilters(String[] proxyFilters) {
+    public void setProxyFilters(Filter[] proxyFilters) {
         this.proxyFilters = proxyFilters;
     }
 
