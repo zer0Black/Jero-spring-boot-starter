@@ -1,6 +1,7 @@
 package com.lxt.starter.druid.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 /**
  * Druid 监控视图
@@ -8,6 +9,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author lixuetao
  * @version 1.0
  */
+@Component
 @ConfigurationProperties(prefix = ServletProperties.PREFIX)
 public class ServletProperties {
 

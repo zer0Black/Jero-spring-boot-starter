@@ -67,7 +67,6 @@ public class DruidAutoConfiguration {
         druidDataSource.setFilters(properties.getFilters());
         druidDataSource.setUseGlobalDataSourceStat(properties.getUseGlobalDataSourceStat());
         druidDataSource.setProxyFilters(Arrays.asList(properties.getProxyFilters()));
-
         return druidDataSource;
     }
 

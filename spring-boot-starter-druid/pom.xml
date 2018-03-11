@@ -8,13 +8,13 @@
 	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
-	<name>spring-boot-starter-druid</name>
+	<name>druid-spring-boot-starter</name>
 	<description>spring boot starter druid</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.10.RELEASE</version>
+		<version>2.0.0.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -50,5 +50,15 @@
 			<version>1.0.28</version>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
 
 </project>

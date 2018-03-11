@@ -1,6 +1,7 @@
 package com.lxt.starter.druid.properties;
 
 import com.alibaba.druid.filter.Filter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
@@ -79,7 +80,10 @@ public class DruidProperties {
     //合并多个DruidDataSource的监控数据(true:合并, false:不合并)
     private Boolean useGlobalDataSourceStat = true;
 
+    @Autowired
     private ServletProperties servlet;
+
+    @Autowired
     private FilterProperties filter;
 
     public String getUrl() {
