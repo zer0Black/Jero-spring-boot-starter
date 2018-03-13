@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * @author lixuetao
  * @version 1.0
  */
-@Component
+@Component("druidFilterProperties")
 @ConfigurationProperties(prefix = FilterProperties.PREFIX)
 public class FilterProperties {
 

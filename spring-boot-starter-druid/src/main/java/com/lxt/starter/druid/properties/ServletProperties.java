@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * @author lixuetao
  * @version 1.0
  */
-@Component
+@Component("druidServletProperties")
 @ConfigurationProperties(prefix = ServletProperties.PREFIX)
 public class ServletProperties {
 

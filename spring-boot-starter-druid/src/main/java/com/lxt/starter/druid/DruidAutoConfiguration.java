@@ -17,7 +17,6 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
-import java.util.Arrays;
 
 /**
  * Druid自动配置
@@ -66,7 +65,6 @@ public class DruidAutoConfiguration {
         druidDataSource.setMaxPoolPreparedStatementPerConnectionSize(properties.getMaxPoolPreparedStatementPerConnectionSize());
         druidDataSource.setFilters(properties.getFilters());
         druidDataSource.setUseGlobalDataSourceStat(properties.getUseGlobalDataSourceStat());
-        druidDataSource.setProxyFilters(Arrays.asList(properties.getProxyFilters()));
         return druidDataSource;
     }
 

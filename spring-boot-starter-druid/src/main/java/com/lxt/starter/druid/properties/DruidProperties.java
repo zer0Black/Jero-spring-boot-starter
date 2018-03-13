@@ -1,7 +1,7 @@
 package com.lxt.starter.druid.properties;
 
-import com.alibaba.druid.filter.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
@@ -72,18 +72,16 @@ public class DruidProperties {
      *  注意:使用多个用逗号分隔(stat,wall,log4j)
      */
     private String filters = "stat,wall";
-    /*
-     * 类型是List，如果同时配置了filters和proxyFilters，
-     * 是组合关系，并非替换关系
-     */
-    private Filter[] proxyFilters;
+
     //合并多个DruidDataSource的监控数据(true:合并, false:不合并)
     private Boolean useGlobalDataSourceStat = true;
 
     @Autowired
+    @Qualifier("druidServletProperties")
     private ServletProperties servlet;
 
     @Autowired
+    @Qualifier("druidFilterProperties")
     private FilterProperties filter;
 
     public String getUrl() {
@@ -236,14 +234,6 @@ public class DruidProperties {
 
     public void setFilters(String filters) {
         this.filters = filters;
-    }
-
-    public Filter[] getProxyFilters() {
-        return proxyFilters;
-    }
-
-    public void setProxyFilters(Filter[] proxyFilters) {
-        this.proxyFilters = proxyFilters;
     }
 
     public Boolean getUseGlobalDataSourceStat() {
