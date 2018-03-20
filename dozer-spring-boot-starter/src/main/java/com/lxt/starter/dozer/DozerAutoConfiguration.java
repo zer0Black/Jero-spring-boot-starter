@@ -25,7 +25,7 @@ public class DozerAutoConfiguration {
 
     @Bean
     public DozerBeanMapper dozerBeanMapper() throws IOException {
-        Resource[] resources = patternResolver.getResources("classpath:dozer/*.xml");
+        Resource[] resources = patternResolver.getResources("classpath*:dozer/*.xml");
         if (resources == null || resources.length == 0) return new DozerBeanMapper();
 
         List<String> mappingFiles = new ArrayList<String>();
