@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.lxt.starter.dozer.DruidAutoConfiguration
+com.lxt.starter.dozer.DozerAutoConfiguration
